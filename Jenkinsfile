@@ -22,20 +22,19 @@ pipeline {
             }
         }
 
-        stage('3. SonarQube Analysis') {
-            steps {
-                withCredentials([string(credentialsId: 'sonar-token', variable: 'squ_356291171d8893bac25b06443164cdaf8b19ea35')]) {
-                    sh """
-                        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
-                        -Dsonar.projectKey=demo-app \
-                        -Dsonar.projectName=demo-app \
-                        -Dsonar.host.url=http://3.110.223.42:9000 \
-                        -Dsonar.token=$SONAR_TOKEN
-                    """
-                }
-            }
+       stage('3. SonarQube Analysis') {
+    steps {
+        withCredentials([string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')]) {
+            sh '''
+                mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
+                -Dsonar.projectKey=demo-app \
+                -Dsonar.projectName=demo-app \
+                -Dsonar.host.url=http://3.110.223.42:9000 \
+                -Dsonar.token=${SONAR_TOKEN}
+            '''
         }
-
+    }
+}
         stage('4. Docker Build') {
             steps {
                 sh 'docker build -t $DOCKERHUB_REPO:$BUILD_NUMBER .'

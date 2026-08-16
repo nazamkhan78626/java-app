@@ -29,7 +29,7 @@ pipeline {
                 mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.11.0.3922:sonar \
                 -Dsonar.projectKey=demo-app \
                 -Dsonar.projectName=demo-app \
-                -Dsonar.host.url=http://3.110.223.42:9000 \
+                -Dsonar.host.url=http://13.201.19.146:9000 \
                 -Dsonar.token=${SONAR_TOKEN}
             '''
         }

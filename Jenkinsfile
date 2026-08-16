@@ -44,17 +44,17 @@ pipeline {
 
         stage('5. DockerHub Push') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds',
-                                                  usernameVariable: 'najmura',
-                                                  passwordVariable: 'Najmura@123')]) {
-                    sh '''
-                        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-                        docker push $DOCKERHUB_REPO:$BUILD_NUMBER
-                        docker push $DOCKERHUB_REPO:latest
-                    '''
-                }
-            }
-        }
+                withCredentials([usernamePassword(
+    credentialsId: 'dockerhub-creds',
+    usernameVariable: 'DOCKER_USER',
+    passwordVariable: 'DOCKER_PASS'
+)]) {
+    sh '''
+        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        docker push $DOCKERHUB_REPO:$BUILD_NUMBER
+        docker push $DOCKERHUB_REPO:latest
+    '''
+}
 
         stage('6. Update Manifest Repo') {
             steps {
